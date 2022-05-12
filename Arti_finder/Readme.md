@@ -2,13 +2,13 @@
 
 It allows you to investigate a Windows machine and look for possible artifacts that may have been left behind after its infection.
 
-An article about this tool was written on Cyberzen's blog.
+An article about this tool was written on [Cyberzen's blog](https://blog.cyberzen.com/A-la-recherche-d-artefacts-sur-Windows-via-Powershell.html).
 
 
 
 ## I) Preparation
 
-At a minimum, you must have the `arti_finder.ps1` script in a directory containing all the rights and have a `Blacklists` directory containing all the rules you want to test.
+At least, you must have the `arti_finder.ps1` script in a directory containing all the rights and have a `Blacklists` directory containing all the rules you want to test.
 
 The format of the rules files is as follows:
 
@@ -101,8 +101,11 @@ In this demo, I analyzed:
 ### B) Contact
 
 Author: [Jérémy DE COCK | LinkedIn](https://www.linkedin.com/in/jeremy-dc/)
+
 Cyberzen: https://www.cyberzen.com/ | [contact@cyberzen.com](mailto:contact@cyberzen.com)
+
+Project link: https://github.com/CyberzenFr/CyberzenFr/tree/main/Arti_finder
 
 ### C) License
 
-Distributed under the XXX Licence. See `LICENSE.txt` for more information.
+Distributed under GPLv3 Licence. See `LICENSE.txt` for more information.
