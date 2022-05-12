@@ -624,12 +624,12 @@ Check-Drivers
 Check-Blacklist
 $watch = Be-Prepared
 
-#Get-KeyValues "HKCU:\"
-#Get-KeyValues "HKCU:\"
+Get-KeyValues "HKCU:\"
+Get-KeyValues "HKCU:\"
 
-# Faster for tests :
-Get-KeyValues "HKCU:\AppEvents\"           # Not all rules pointed
-Get-KeyValues "HKLM:\BCD00000000\Objects\" # All rules pointed
+# Examples on Github :
+#Get-KeyValues "HKCU:\AppEvents\"           # Not all rules pointed
+#Get-KeyValues "HKLM:\BCD00000000\Objects\" # All rules pointed
 
 Show-Report $watch
 Build-Report
