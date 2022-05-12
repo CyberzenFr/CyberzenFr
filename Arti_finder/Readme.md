@@ -6,12 +6,6 @@ An article about this tool was written on Cyberzen's blog.
 
 
 
-<u>Table of Contents</u>
-
-[TOC]
-
-
-
 ## I) Preparation
 
 At a minimum, you must have the `arti_finder.ps1` script in a directory containing all the rights and have a `Blacklists` directory containing all the rules you want to test.
