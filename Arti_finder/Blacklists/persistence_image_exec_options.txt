@@ -1,0 +1,12 @@
+# In this example, the image is "notepad.exe" and the monitor process is "C:\temp\evil.exe"
+[title]persistence_image_exec_options.rb
+[rule]3
+[name]HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe
+    [property]GlobalFlag
+        [value]512
+[name]HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe
+    [property]ReportingMode
+        [value]1
+[name]HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe
+    [property]MonitorProcess
+        [value]C:\temp\evil.exe

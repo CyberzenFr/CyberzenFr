@@ -1,0 +1,15 @@
+[title]Example2
+[rules]5
+[name]HKEY_LOCAL_MACHINE\BCD00000000\Objects\{0ce4991b-e6b3-4b16-b23c-5e0d9250e5d9}\Description
+    [property]Type
+        [value]537919488
+[name]HKEY_LOCAL_MACHINE\BCD00000000\Objects\{0ce4991b-e6b3-4b16-b23c-5e0d9250e5d9}\Elements
+[name]HKEY_LOCAL_MACHINE\BCD00000000\Objects\{0ce4991b-e6b3-4b16-b23c-5e0d9250e5d9}\Elements\16000020
+    [property]Element
+        [value]0
+[name]HKEY_LOCAL_MACHINE\BCD00000000\Objects\{0ce4991b-e6b3-4b16-b23c-5e0d9250e5d9}\Elements\16000060
+    [property]Element
+        [value]1
+[name]HKEY_CURRENT_USER\AppEvents\Schemes\Apps\.Default\.Default\.Default 
+    [property](default)
+        [value]C:\WINDOWS\media\Windows Background.wav
