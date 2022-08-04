@@ -134,7 +134,7 @@ function Be-Prepared {
 
     $folder = $path.ToString() + "\Outputs"
 
-     # Create the old directory "Outputs"
+    # Delete the old directory "Outputs"
     if (Test-Path $folder) {
         Remove-Item -Path $folder -Recurse
 
@@ -404,61 +404,77 @@ function Show-Report {
     # Table
     Write-Host "[?] " -ForegroundColor Cyan -NoNewline
     Write-Host "Percent of rules pointed.`n"
-    Write-Host "<------------------------------^---------------------------^--------------------------->"
-    $out = "<------------------------------^---------------------------^--------------------------->" | Out-File -FilePath $file -Append
-    Write-Host "|    Blacklist                 |    HKCU:\ [...]           |    HKLM:\ [...]           |"
-    $out = "|    Blacklist                 |    HKCU:\ [...]           |    HKLM:\ [...]           |" | Out-File -FilePath $file -Append
-    Write-Host "|------------------------------|---------------------------|---------------------------|"
-    $out = "|------------------------------|---------------------------|---------------------------|" | Out-File -FilePath $file -Append
+    Write-Host "<------------------------------^--------------------^--------------------^--------------------------------->"
+    $out = "<------------------------------^--------------------^--------------------^--------------------------------->" | Out-File -FilePath $file -Append
+    Write-Host "|    Blacklist                 |    HKCU:\ [...]    |    HKLM:\ [...]    |    Total                        |"
+    $out = "|    Blacklist                 |    HKCU:\ [...]    |    HKLM:\ [...]    |    Total                        |" | Out-File -FilePath $file -Append
+    Write-Host "<------------------------------|--------------------|--------------------|--------------------------------->"
+    $out = "<------------------------------|--------------------|--------------------|--------------------------------->" | Out-File -FilePath $file -Append
     
     $len = $global:blacklistsUsed.Count
-
+    
     if ($len -eq 0) {
-        Write-Host "|    NOTHING                   |    NOTHING                |    NOTHING                |"
-        $out = "|    NOTHING                   |    NOTHING                |    NOTHING                |" | Out-File -FilePath $file -Append
-    }
+        Write-Host "|    NOTHING                   |    NOTHING         |    NOTHING         |    NOTHING                      |"
+        $out = "|    NOTHING                   |    NOTHING         |    NOTHING         |    NOTHING                      |" | Out-File -FilePath $file -Append
+    } else {
+        for ($n=0; $n -ne $len; $n++) {
+            # List all blacklist
+            $blacklist = $global:blacklistsUsed[$n].ToString().Split("\")[-1]
+            $offset = " " * (24 - $blacklist.length)
 
-    for ($n=0; $n -ne $len; $n++) {
-        # List all blacklist
-        $blacklist = $global:blacklistsUsed[$n].ToString().Split("\")[-1]
-        $offset = " " * (24 - $blacklist.length)
-
-        Write-Host "|   " $blacklist $offset "|    " -NoNewline
-        $out = "|    $blacklist $offset |    " | Out-File -FilePath $file -Append -NoNewline
-        
-        # Count the percent of rules pointed on a blacklist (HKCU column)
-        if ($global:rules4HKCU.$blacklist -ne $null) {
-            # Because we initialize the cell to 1 (defaut)
-            $number = [int]::Parse($global:rules4HKCU.$blacklist) - 1
+            Write-Host "|   " $blacklist $offset "|    " -NoNewline
+            $out = "|    $blacklist $offset |    " | Out-File -FilePath $file -Append -NoNewline
             
-            if ($number -lt 10) {
-                $offset = " " * 2
-            } elseif ($number -lt 100) {
-                $offset = " " * 1
-            } else {
-                $offset = ""
+            # Count the percent of rules pointed on a blacklist (HKCU column)
+            if ($global:rules4HKCU.$blacklist -ne $null) {
+                # Because we initialize the cell to 1 (defaut)
+                $number = [int]::Parse($global:rules4HKCU.$blacklist) - 1
+                
+                # Count the offset to apply
+                $offset = " " * (15 - $number.tostring().length)
+
+                Write-Host $number $offset -NoNewline
+                $out = "$number $offset" | Out-File -FilePath $file -Append -NoNewline
             }
 
-            if ([int]::Parse($global:rulesChecked.$blacklist) -lt 10) {
-                $offset += " " * 2
-            } elseif ([int]::Parse($global:rulesChecked.$blacklist) -lt 100) {
-                $offset += " " * 1
-            }
+            # Backup of the number of matched rules
+            $total = $number
+
+            Write-Host "|    " -NoNewline
+            $out = "|    " | Out-File -FilePath $file -Append -NoNewline
             
-            if ($number -gt 0) {
-                $percent = [math]::Round((($number / $global:rulesChecked.$blacklist) * 100), 0)
+            # Count the percent of rules pointed on a blacklist (HKLM column)
+            if ($global:rules4HKLM.$blacklist -ne $null) {
+                # Because we initialize the cell to 1 (defaut)
+                $number = [int]::Parse($global:rules4HKLM.$blacklist) - 1
+                
+                # Count the offset to apply
+                $offset = " " * (15 - $number.tostring().length)
+
+                Write-Host $number $offset -NoNewline
+                $out = "$number $offset" | Out-File -FilePath $file -Append -NoNewline
+            }
+
+            # Backup of the number of matched rules
+            $total += $number
+
+            Write-Host "|    " -NoNewline
+            $out = "|    " | Out-File -FilePath $file -Append -NoNewline
+
+            # Show the total of matched rules
+            if ($total -gt 0) {
+                $percent = [math]::Round((($total / $global:rulesChecked.$blacklist) * 100), 0)
             } else {
                 $percent = 0
             }
 
-            if ($percent -lt 10) {
-                $offset += " " * 2
-            } elseif ($percent -lt 100) {
-                $offset += " " * 1
-            }
+            # Count the offset to apply
+            $offset = " " * (5 - $total.tostring().length)
+            $offset += " " * (5 - [int]::Parse($global:rulesChecked.$blacklist).tostring().length)
+            $offset += " " * (5 - $percent.tostring().length)
 
-            Write-Host $number "/" $global:rulesChecked.$blacklist " ( " -NoNewline
-            $out = "$number / $($global:rulesChecked.$blacklist) ( " | Out-File -FilePath $file -Append -NoNewline
+            Write-Host $total "/" $global:rulesChecked.$blacklist " ( " -NoNewline
+            $out = "$total / $($global:rulesChecked.$blacklist) ( " | Out-File -FilePath $file -Append -NoNewline
 
             if ($percent -eq 0) {
                 Write-Host $percent "%" -ForegroundColor Green -NoNewline
@@ -470,66 +486,14 @@ function Show-Report {
                 Write-Host $percent "%" -ForegroundColor DarkRed -NoNewline
             }
 
-            $out = "$percent %" | Out-File -FilePath $file -Append -NoNewline
-            Write-Host " )" $offset " " -NoNewline
-            $out = " ) $offset   " | Out-File -FilePath $file -Append -NoNewline
-        }
-
-        Write-Host "|    " -NoNewline
-        $out = "|    " | Out-File -FilePath $file -Append -NoNewline
-        
-        # Count the percent of rules pointed on a blacklist (HKLM column)
-        if ($global:rules4HKLM.$blacklist -ne $null) {
-            # Because we initialize the cell to 1 (defaut)
-            $number = [int]::Parse($global:rules4HKLM.$blacklist) - 1
-            
-            if ($number -lt 10) {
-                $offset = " " * 2
-            } elseif ($number -lt 100) {
-                $offset = " " * 1
-            } else {
-                $offset = ""
-            }
-
-            if ([int]::Parse($global:rulesChecked.$blacklist) -lt 10) {
-                $offset += " " * 2
-            } elseif ([int]::Parse($global:rulesChecked.$blacklist) -lt 100) {
-                $offset += " " * 1
-            }
-
-            if ($number -gt 0) {
-                $percent = [math]::Round((($number / $global:rulesChecked.$blacklist) * 100), 0)
-            } else {
-                $percent = 0
-            }
-
-            if ($percent -lt 10) {
-                $offset += " " * 2
-            } elseif ($percent -lt 100) {
-                $offset += " " * 1
-            }
-
-            Write-Host $number "/" $global:rulesChecked.$blacklist " ( " -NoNewline
-            $out = "$number / $($global:rulesChecked.$blacklist) ( " | Out-File -FilePath $file -Append -NoNewline
-            
-            if ($percent -eq 0) {
-                Write-Host $percent "%" -ForegroundColor Green -NoNewline
-            } elseif ($percent -lt 50) {
-                Write-Host $percent "%" -ForegroundColor Yellow -NoNewline
-            } elseif ($percent -lt 75) {
-                Write-Host $percent "%" -ForegroundColor Red -NoNewline
-            } else {
-                Write-Host $percent "%" -ForegroundColor DarkRed -NoNewline
-            }
-            
             $out = "$percent %" | Out-File -FilePath $file -Append -NoNewline
             Write-Host " )" $offset " |"
             $out = " ) $offset   |" | Out-File -FilePath $file -Append
-        } 
+        }
     }
 
-    Write-Host "<------------------------------u---------------------------u--------------------------->`n"
-    $out = "<------------------------------u---------------------------u--------------------------->" | Out-File -FilePath $file -Append
+    Write-Host "<------------------------------u--------------------u--------------------u--------------------------------->`n"
+    $out = "<------------------------------u--------------------u--------------------u--------------------------------->" | Out-File -FilePath $file -Append
 
     $len = $global:warnings.Count
 
@@ -625,7 +589,7 @@ Check-Blacklist
 $watch = Be-Prepared
 
 Get-KeyValues "HKCU:\"
-Get-KeyValues "HKCU:\"
+Get-KeyValues "HKLM:\"
 
 # Examples on Github :
 #Get-KeyValues "HKCU:\AppEvents\"           # Not all rules pointed

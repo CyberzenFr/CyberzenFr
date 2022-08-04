@@ -49,22 +49,24 @@ You can in your rules:
 The script must be launched in a **Powershell** window as an administrator.
 
 ```powershell
-PS C:\Users\demo\Documents\Arti_finder> ls
+PS C:\Users\demo\Documents\GitHub\CyberzenFr\Arti_finder> ls
 
 
-    Répertoire : C:\Users\demo\Documents\Arti_finder
+    Répertoire : C:\Users\demo\Documents\GitHub\CyberzenFr\Arti_finder
 
 
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
-d-----        11/05/2022     00:50                Blacklists
-d-----        11/05/2022     11:23                Outputs
-d-----        11/05/2022     14:07                Reports
-d-----        11/05/2022     14:10                Screens
--a----        11/05/2022     02:41          24983 arti_finder.ps1
--a----        11/05/2022     14:08            181 Readme.md
+d-----        12/05/2022     11:25                Blacklists
+d-----        04/08/2022     19:13                Outputs
+d-----        04/08/2022     19:14                Reports
+d-----        12/05/2022     11:25                Screens
+-a----        04/08/2022     19:13          23850 arti_finder.ps1
+-a----        12/05/2022     12:18          33091 LICENSE.txt
+-a----        12/05/2022     11:52           3482 Readme.md
 
-PS C:\Users\demo\Documents\Arti_finder> .\arti_finder.ps1
+
+PS C:\Users\demo\Documents\GitHub\CyberzenFr\Arti_finder> .\arti_finder.ps1
 ```
 
 The execution time will depend on the paths analyzed exactly in the two drivers **HKCU:/** and **HKLM:/**.
@@ -97,6 +99,7 @@ In this demo, I analyzed:
 | Version |    Date    |                           Content                            |
 | :-----: | :--------: | :----------------------------------------------------------: |
 |   1.0   | 05/11/2022 | Basic scan of drivers HKCU and HKLM (use blacklist to compare values founded). |
+|   1.1   | 04/08/2022 |            Bug fixes + more targeted percentages.            |
 
 ### B) Contact
 
