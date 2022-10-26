@@ -1,0 +1,5 @@
+# RiskWare.IFEOHijack : https://www.malwarebytes.com/blog/detections/riskware-ifeohijack
+[title]mpcmdrun.exe (debugger)
+[rule]2
+[name]HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\mpcmdrun.exe
+[name]HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\mpcmdrun.exe
